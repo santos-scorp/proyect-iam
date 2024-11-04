@@ -1,0 +1,3 @@
+
+SELECT users.id, users.name, users.lastName, users.code, users.photo, users.idRol, roles.name FROM users
+INNER JOIN roles on roles.id= users.idRol

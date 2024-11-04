@@ -1,0 +1,38 @@
+{
+  "name": "frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@vue-reactivity/fs": "^0.1.1",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "cropperjs": "^1.6.2",
+    "html2canvas": "^1.4.1",
+    "https": "^1.0.0",
+    "instascan": "^1.0.0",
+    "qrcode": "^1.5.4",
+    "remove": "^0.1.5",
+    "sweetalert2": "^11.14.4",
+    "vue": "^3.5.10",
+    "vue-cropperjs": "^5.0.0",
+    "vue-qr": "^4.0.9",
+    "vue-qrcode-reader": "^5.5.11",
+    "vue-router": "^4.4.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^1.1.0",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "vite": "^5.4.8"
+  }
+}

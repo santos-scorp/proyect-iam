@@ -1,0 +1,6 @@
+export { default as permissionModel } from './permissionModel'
+export { default as registerModel } from './registerModel'
+export { default as rolModel } from './rolModel'
+export { default as rolPermissionModel } from './rolPermissionModel'
+export { default as typeAccesoModel } from './typeAccesoModel'
+export { default as userModel } from './userModel'
