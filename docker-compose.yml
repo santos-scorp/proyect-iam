@@ -13,7 +13,7 @@ services:
       context: ./Frontend
     ports:
       - "443:5000"
-    enviroment:
+    environment:
       - HOST=0.0.0.0
       - PORT=5000
     networks:
