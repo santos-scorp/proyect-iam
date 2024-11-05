@@ -18,10 +18,14 @@ const findRegisterById = async (id) => {
 }
 
 
-const allregisters = async () => {
+const allRegisters = async () => {
     const conn = db.open()
     return new Promise((resolve, reject) => {
-        conn.all('SELECT * FROM registers',
+        conn.all(`SELECT registers.date, registers.hour, users.name, users.lastName, typeAcceso.name as accesso 
+                FROM registers
+                INNER JOIN users ON registers.idUser = users.id
+                INNER JOIN typeAcceso ON registers.idAcceso = typeAcceso.id;
+            `,
             (err, rows) => {
                 if (err) {
                     db.close()
@@ -35,11 +39,10 @@ const allregisters = async () => {
     })
 }
 
-const insertRegister = async (Register) => {
-    const { name, lastName, code, password, idRol } = Register
+const insertRegister = async (idUser, idAcceso) => {
     const conn = db.open()
     return new Promise((resolve, reject) => {
-        conn.get('INSERT INTO registers (name, lastName, code, password, idRol) VALUES(?,?,?,?,?)', [name, lastName, code, password, idRol],
+        conn.get('INSERT INTO registers (idUser, idAcceso) VALUES(?,?)', [idUser, idAcceso],
             (err, rows) => {
                 if (err) {
                     db.close()
@@ -92,7 +95,7 @@ const removeRegister = async(id) => {
 
 export default {
     findRegisterById,
-    allregisters,
+    allRegisters,
     insertRegister,
     editRegister,
     removeRegister

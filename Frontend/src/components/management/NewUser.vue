@@ -3,6 +3,7 @@ import rolesServices from '../../services/rolesServices'
 import configService from '../../services/config';
 import usersService from '../../services/usersService';
 import Swal from 'sweetalert2'
+import { SessionService } from '../../services/sessionService';
 
 export default {
     name: 'NewUser',
@@ -32,7 +33,7 @@ export default {
                 vPassword: '',
                 vConfirmPassword: ''
 
-            }
+            },
         }
     },
     mounted () {
@@ -49,6 +50,9 @@ export default {
     },    
     methods: {
         insertUser() {
+            this.user.idAcceso = 5
+            let u = SessionService.get()
+            this.user.idUser = u.id
             usersService.insert(this.user)
             .then(res => {                                   
                 if (this.image != null){

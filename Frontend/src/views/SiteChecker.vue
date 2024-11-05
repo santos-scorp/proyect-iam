@@ -174,7 +174,7 @@ export default {
       <main class="flex-grow-1 align-items-center">
         <div class="m-2" v-if="!result">
             <qrcode-stream
-            
+            :constraints="{ facingMode }"
             :paused="paused"
             @detect="onDetect"
             @camera-on="onCameraOn"

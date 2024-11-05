@@ -5,18 +5,18 @@
         <div class="container-fluid ">
             <a class="navbar-brand" href="#">
                 <img src="../assets/images/upy.png" alt="Bootstrap" width="100px" >
-                <span class="brand-text ms-4 text-upy">Control Y Manejo de Identidades</span>
+                <span class="brand-text ms-4 text-upy">Control y Manejo de Identidades</span>
             </a>
         </div>
     </nav>
   <!-- Contenido Principal -->
     <main class="flex-grow-1 d-flex align-items-center justify-content-center">
         <div class="login card p-4" style="width: 300px;">
-            <h4 class="text-center text-upy">Inicio de Sesion</h4>
+            <h4 class="text-center text-upy">Inicio de Sesión</h4>
             <div class="input-group mb-3 has-validation">
                 <div :class=" vUser.code ? 'form-floating form-group is-invalid' : 'form-floating form-group'">
                     <input v-model="user.code" type="text" :class="vUser.code ? 'form-control is-invalid' : 'form-control '" id="input-code" placeholder="code">
-                    <label for="input-code text-upy">Codigo</label>
+                    <label for="input-code text-upy">Código</label>
                 </div>
                 <div v-if="vUser.code" class="invalid-feedback">{{ vUser.code }}</div>
             </div>
@@ -55,13 +55,11 @@ export default {
             vUser: {
                 code: '',
                 password: ''
-            },
-            loading: false,         
+            }        
         }
     },
     methods: {
-        loginUser () {            
-            this.loading = true
+        loginUser() {           
             usersService.login(this.user)
             .then(res => {
                 TokenService.set(res.token)
@@ -69,14 +67,16 @@ export default {
                 if (res.token) {
                     this.$router.push({ name: 'dashboard'})
                 }
-            })
-            .catch(err => {   
-                if (err.response.data.errors)  {                                               
+            }).catch(err => { 
+                console.log(err);  
+                if (err.response.data.errors)  {                                          
                     this.setFieldErrors(err.response.data.errors)
+                    console.log(this.vUser)
                 } else {
                     this.alertDenied()
                 }
             })
+           
             
             this.loading = false
         },

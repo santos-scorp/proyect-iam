@@ -10,6 +10,7 @@ import routesRoles from './routes/routesRoles.js'
 import routesTypeAcceso from './routes/routesTypeAcceso.js'
 
 
+
 const __dirname = import.meta.dirname;
 const app = express()
 

@@ -1,5 +1,6 @@
 import userModel from "../models/userModel.js";
 import User from "../models/userModel.js";
+import registerModel from "../models/registerModel.js"
 import Permissions from "../models/rolPermissionModel.js";
 import { validationResult } from 'express-validator'
 import jwt from "jsonwebtoken"
@@ -16,17 +17,20 @@ const loginUser = async (req, res) => {
     }
     
     try {
-        const existUser = await User.findUserByCode(code)        
-        if (!existUser) {
-            res.status(400).json({error: 'User not Found'})
-        }
-        const result = await User.login(user)        
+        // const existUser = await User.findUserByCode(code)     
+        const result = await User.login(user)
+        console.log(result)
+        const permissions = await Permissions.findRolPermissionsById(result.idRol)
+        const listPermission = permissions.map(element => element.idPermission);
+        result.permissions = listPermission  
+        //await registerModel.insertRegister(result.id, 4)
         const token = jwt.sign(result, secretKey, {expiresIn: "1h"} )
         return res.status(200).json({
             user: result,
             token
         })
-    } catch (error) {        
+    } catch (error) { 
+        console.log(error)
         res.status(400).json({error: 'User not Found'})
     }
 
@@ -51,8 +55,7 @@ const findUserByCode = async (req, res) => {
         const listPermission = permissions.map(element => element.idPermission);
         result.permissions = listPermission
         res.status(200).json({
-            user: result,
-            
+            user: result,            
         })
     } catch (error) {
         console.log(error);
@@ -60,6 +63,7 @@ const findUserByCode = async (req, res) => {
         res.status(500).json({error: 'Error to show user'}) 
     }
 }
+
 const allUsers = async (req, res) => {
     
     try {
@@ -72,6 +76,7 @@ const allUsers = async (req, res) => {
         res.status(500).json({error: 'Error to show list users'})
     }
 }
+
 const createUser = async (req, res) => {
     const { name, lastName, code, password, idRol, permissions } = req.body
     const user = { name, lastName, idRol, code, password,  permissions }
@@ -92,6 +97,7 @@ const createUser = async (req, res) => {
         res.status(500).json({error: 'Error to create user'})
     }
 }
+
 const updateUser = async (req,res) => {
     const { name, lastName, idRol } = req.body
     let id = req.params.id
@@ -111,6 +117,7 @@ const updateUser = async (req,res) => {
         res.status(500).json({error: 'Error to update user'})
     }
 }
+
 const deleteUser = async (req,res) => {
     const id = req.params.id
 
@@ -168,7 +175,23 @@ const uploadProfile = async (req, res,next) => {
     }
 }
 
+const checkCode = async (req, res) => {
+    const {code, idAcceso} = req.params;
+    console.log(code);
+    try {
+        const result = await User.findUserByCode(code)
+        res.status(200).json({
+            user: result,            
+        })
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).json({error: 'Error to show user'}) 
+    }
+}
+
 export default {
+    checkCode,
     loginUser,
     findUserById,
     findUserByCode,

@@ -1,9 +1,12 @@
 export class SessionService {
     static set(user) {
-        localStorage.setItem('userLogged', user)
+        localStorage.setItem('userLogged', JSON.stringify(user))
     }
 
     static get() {
-        return localStorage.getItem('userLogged')
+        return JSON.parse(localStorage.getItem('userLogged'))
+    }
+    static remove() {
+        localStorage.removeItem('userLogged')
     }
 }

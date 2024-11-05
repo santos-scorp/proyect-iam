@@ -5,7 +5,7 @@ import ResetPassword from '../../components/management/ResetPassword.vue';
 import Credentials from '../../components/management/Credentials.vue';
 import Swal from 'sweetalert2'
 import EditUser from '../../components/management/EditUser.vue';
-
+import { SessionService } from '../../services/sessionService';
 export default {
     data () {
         return {
@@ -47,6 +47,7 @@ export default {
         allUsers() {
             usersService.all()
             .then(res => {
+                console.log(res)
                 this.users = res.users                
             })
             
@@ -66,8 +67,12 @@ export default {
                 cancelButtonColor: "#d33",
                 confirmButtonText: "Si, Eliminar!"
                 }).then((result) => {
-                if (result.isConfirmed) {                    
-                    usersService.delete(id)
+                if (result.isConfirmed) {
+                    this.user.idAcceso = 7
+                    let u = SessionService.get()
+                    this.user.idUser = u.id 
+                    this.user.id = id                   
+                    usersService.delete(this.user)
                     .then(res => {
                         this.allUsers()
                     })
@@ -109,7 +114,7 @@ export default {
 }
 </script>
 <template>
-    <div class="container-fluid">
+    <div class="contain container-fluid">
         <nav class="m-4" aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -119,7 +124,7 @@ export default {
         </nav>
         <h3>Administración de Usuarios</h3>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Nuevo Usuario</button>
-        <table class="table table-dark table-hover">
+        <table class="table table-hover">
            <thead>
             <tr>
                 <th>Nombre completo</th>
@@ -155,3 +160,6 @@ export default {
         <Credentials :user="user"/>
     </div>
 </template>
+<style scoped>
+
+</style>

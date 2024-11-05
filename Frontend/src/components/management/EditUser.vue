@@ -3,7 +3,7 @@ import rolesServices from '../../services/rolesServices'
 import configService from '../../services/config';
 import usersService from '../../services/usersService';
 import Swal from 'sweetalert2'
-
+import { SessionService } from '../../services/sessionService';
 export default {
     name: 'EditUser',    
     props:['user'],
@@ -42,6 +42,9 @@ export default {
     },    
     methods: {
         insertUser() {
+            this.user.idAcceso = 6
+            let u = SessionService.get()
+            this.user.idUser = u.id
             usersService.update(this.user)
             .then(res => {                                   
                 if (this.image != null){

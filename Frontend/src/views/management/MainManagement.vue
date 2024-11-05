@@ -15,12 +15,12 @@
                             <span class="ms-4">Roles</span>
                         </router-link>
                     </li>
-                    <li class="list-group-item">
+                    <!--<li class="list-group-item">
                         <router-link class="nav-link active" aria-current="page" to="/permissions">
                             <fa icon="check-double" size="xl"  />
                             <span class="ms-4">Permisos</span>
                         </router-link>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <div class="col">

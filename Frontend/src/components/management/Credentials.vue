@@ -25,7 +25,10 @@
                         {{ user.rol }}
                     </div>
                     <div class="qr-img">
-                        <vue-qr  :text="!user.code ? 'hola' : user.code" :size="200" :colorDark='"#4d267f"' :colorLight='"#fff"' />
+                        <vue-qr  :text="!user.code ? 'hola' : user.code" :size="170" :colorDark='"#000"' :colorLight='"#fff"' />
+                    </div>
+                    <div class="rol-code">
+                        {{ user.code }}
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -111,10 +114,21 @@ export default {
         font-family: Arial, Helvetica, sans-serif;
         z-index: 2;
     }
+    .rol-code {
+        position: absolute;
+        text-align: center;
+        top: 460px;
+        font-weight: 600;
+        font-size: 1em;        
+        color: #4d267f;
+        width: 300px;
+        font-family: Arial, Helvetica, sans-serif;
+        z-index: 2;
+    }
     .qr-img {
         position: absolute;
         top: 305px;
-        left: 68px;
+        left: 78px;
     }
     
 </style>

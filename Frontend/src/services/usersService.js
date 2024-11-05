@@ -1,7 +1,6 @@
 import santosServices from "./santosServices";
 const usersService = {}
 import { TokenService } from "./tokenService";
-import axios from 'axios';
 
 
 const options = {
@@ -15,54 +14,65 @@ const options = {
 
 
 usersService.login = async (user) => {
-    try {
-        return await santosServices.post('/user/login', user, )
-        .then(res => res.data)
-    } catch (error) {
-        console.log(error);
-        
-    }
+    return await santosServices.post('/user/login', user, {
+        headers: {
+            'Content-Type': 'application/json', // Default header for methods with body (patch, post & put)
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Content-Type, Authorization',
+            }
+    }).then(res => res.data)
+
 }
 usersService.all = async () => {    
-    return await axios.get('/user', options)
+    return await santosServices.get('/user', options)
     .then(res => res.data)
 }
 
 usersService.findById = async (id) => {
-    return await axios.post(`/user/${id}`, options)
+    return await santosServices.post(`/user/${id}`, options)
     .then(res => res.data)
 }
 
 usersService.insert = async (user) => {
-    return await axios.post('/user',user,options).then(res => res.data)
+    return await santosServices.post('/user',user,options).then(res => res.data)
 }
 
 usersService.update = async (user) => {
-    return await axios.put(`/user/${user.id}`,user, options).then(res => res.data)
+    return await santosServices.put(`/user/${user.id}`,user, options).then(res => res.data)
 }
 
-usersService.delete = async (id) => {
-    return await axios.delete(`/user/${id}`, options)
+usersService.delete = async (user) => {
+    return await santosServices.delete(`/user/${user.id}`, options)
     .then(res => res.data)
 }
 
 usersService.checkCode = async (code) => {
-    return await axios.get(`/user/code/${code}`)
+    return await santosServices.get(`/user/check/${code}`, options)
     .then(res => res.data)
 }
 
 usersService.uploadProfile = async (file, code) => {
+    console.log(file);
+    
     const formData = new FormData();  
     const name = `${code}-${Date.now()}${ext(file.type)}`
     console.log(ext(file))
     formData.append('profile', file, name);
-    return await axios.post(`/user/profile/${code}`, formData, options)
+    return await santosServices.post(`/user/profile/${code}`, formData, {
+        headers: {
+            'Authorization': 'Bearer ' + TokenService.get(),
+            'Content-Type': 'application/json', // Default header for methods with body (patch, post & put)
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Content-Type, Authorization',
+         }
+    })
     .then(res => res)
 
 }
 
 usersService.resetPassword = async (reset) => {
-    return await axios.post('/user/resetPassword', reset, options)
+    return await santosServices.post('/user/resetPassword', reset, options)
         .then(res => res.data)
 }
 
