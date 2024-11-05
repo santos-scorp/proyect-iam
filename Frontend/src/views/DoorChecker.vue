@@ -6,7 +6,7 @@ import usersService from '../services/usersService';
 import configService from '../services/config';
 export default {
   components: { QrcodeStream },
-
+  name: 'DoorChecker',
   data() {
     return {
       paused: false,
@@ -42,38 +42,18 @@ export default {
 
     async onDetect(detectedCodes) {
       
-      usersService.checkCodeSite(detectedCodes[0].rawValue).then(res => {
+      usersService.checkCodeDoor(detectedCodes[0].rawValue).then(async (res) => {
+        console.log(res);
         
-        this.paused = true
-        if (res.user.permissions.includes(7)) {
-          this.user.code = res.user.code
-          this.showPassword = true;
-        } else {
-          this.alertDenied()
-        }
+        this.result = res.user
+        await this.timeout(3000)
+        this.result = ''
         
       }).catch(err => {
         this.alertDenied()
       })
       await this.timeout(500)
       this.paused = false
-    },
-    async loginUser () {            
-            this.loading = true
-            usersService.login(this.user)
-            .then(res => {
-              this.result = res.user
-              this.alertSuccess()
-            }).catch(err => {
-              if (err.response.data.errors)  {                                               
-                    this.setFieldErrors(err.response.data.errors)
-                } else {
-                    this.alertInvalid()
-                }
-                this.resetValues()
-            })
-            await this.timeout(3000)
-            this.resetValues()
     },
     alertSuccess(){
         const Toast = Swal.mixin({
@@ -167,7 +147,7 @@ export default {
           <div class="container-fluid ">
               <a class="navbar-brand" href="#">
                   <img src="../assets/images/upy.png" alt="Bootstrap" width="100px" >
-                  <span class="brand-text ms-4 text-upy">Control Site</span>
+                  <span class="brand-text ms-4 text-upy">Control de Entrada</span>
               </a>
           </div>
       </nav>
@@ -182,21 +162,10 @@ export default {
             @error="onError"
           />
         </div>
-        <div v-if="showPassword && !result">
-          <h4 class="text-center text-white mt-2">Ingresa tu contraseña</h4>
-          <div class="form-group m-5">
-              <div :class=" vUser.password ? 'form-floating form-group is-invalid' : 'form-floating form-group'">
-                  <input v-model="user.password" type="password":class="vUser.password ? 'form-control is-invalid' : 'form-control '" id="input-password" placeholder="Password">
-                  <label for="input-password text-upy">Contraseña</label>
-              </div>
-              <div v-if="vUser.password" class="invalid-feedback">{{ vUser.password }}</div>
-          </div>
-          <button type="button" @click="loginUser" class="btn btn-success mx-auto d-block mt-2">Iniciar Sesión</button>
-        </div>
         <div v-if="result" class="text-center d-block">
           <div>
             <h4 class="text-white">Bienvenido</h4>
-            <h5 class="text-white">Acceso Autorizado</h5>
+            <h5 class="text-white">Acceso Registrado</h5>
             <img :src="urlImage + result.photo" alt="" width="250px">
           </div>
           <div class="text-white mt-3"><h6>{{ result.name }} {{ result.lastName }}</h6></div>

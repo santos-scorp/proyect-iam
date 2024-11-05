@@ -46,8 +46,13 @@ usersService.delete = async (user) => {
     .then(res => res.data)
 }
 
-usersService.checkCode = async (code) => {
-    return await santosServices.get(`/user/check/${code}`, options)
+usersService.checkCodeSite = async (code) => {
+    return await santosServices.get(`/user/checkSite/${code}`, options)
+    .then(res => res.data)
+}
+
+usersService.checkCodeDoor = async (code) => {
+    return await santosServices.get(`/user/checkDoor/${code}`, options)
     .then(res => res.data)
 }
 

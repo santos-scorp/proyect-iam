@@ -23,7 +23,7 @@ const loginUser = async (req, res) => {
         const permissions = await Permissions.findRolPermissionsById(result.idRol)
         const listPermission = permissions.map(element => element.idPermission);
         result.permissions = listPermission  
-        //await registerModel.insertRegister(result.id, 4)
+        await registerModel.insertRegister(result.id, 4)
         const token = jwt.sign(result, secretKey, {expiresIn: "1h"} )
         return res.status(200).json({
             user: result,
@@ -175,11 +175,34 @@ const uploadProfile = async (req, res,next) => {
     }
 }
 
-const checkCode = async (req, res) => {
-    const {code, idAcceso} = req.params;
+const checkCodeSite = async (req, res) => {
+    const {code} = req.params;
     console.log(code);
     try {
         const result = await User.findUserByCode(code)
+        const permissions = await Permissions.findRolPermissionsById(result.idRol)
+        const listPermission = permissions.map(element => element.idPermission);
+        result.permissions = listPermission
+        await registerModel.insertRegister(result.id, 2)
+        res.status(200).json({
+            user: result,            
+        })
+    } catch (error) {
+        console.log(error);
+        
+        res.status(500).json({error: 'Error to show user'}) 
+    }
+}
+
+const checkCodeDoor = async (req, res) => {
+    const {code} = req.params;
+    console.log(code);
+    try {
+        const result = await User.findUserByCode(code)
+        const permissions = await Permissions.findRolPermissionsById(result.idRol)
+        const listPermission = permissions.map(element => element.idPermission);
+        result.permissions = listPermission
+        await registerModel.insertRegister(result.id, 3)
         res.status(200).json({
             user: result,            
         })
@@ -191,7 +214,8 @@ const checkCode = async (req, res) => {
 }
 
 export default {
-    checkCode,
+    checkCodeSite,
+    checkCodeDoor,
     loginUser,
     findUserById,
     findUserByCode,

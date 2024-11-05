@@ -9,6 +9,7 @@ import Users from './views/management/Users.vue'
 import Permissions from './views/management/Permissions.vue'
 import Roles from './views/management/Roles.vue'
 import Login from './views/Login.vue'
+import DoorChecker from './views/DoorChecker.vue'
 
 const routes = [
     {
@@ -56,7 +57,8 @@ const routes = [
         ]
     },
     {path: '/login', component: Login, name: 'login'},
-    {path: '/site', component: SiteChecker, name: 'site'}
+    {path: '/site', component: SiteChecker, name: 'site'},
+    {path: '/door', component: DoorChecker, name: 'door'}
 ]
 
 const router = createRouter({

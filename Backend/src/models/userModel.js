@@ -21,7 +21,8 @@ const findUserById = async (id) => {
 const findUserByCode = async (code) => {
     const conn = db.open()
     return new Promise((resolve, reject) => {
-        conn.get('SELECT id, name, lastName, code, photo, idRol FROM users WHERE code=?', [code],
+        conn.get(`SELECT users.id, users.name, users.lastName, users.code, users.photo, users.idRol, roles.name as rol FROM users 
+                INNER JOIN roles on roles.id=users.idRol WHERE users.code=?`, [code],
             (err, rows) => {
                 if (err) {
                     db.close()

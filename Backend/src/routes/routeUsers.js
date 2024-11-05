@@ -8,7 +8,8 @@ const router = Router();
 
 router.get('/user/:id', validateToken.verifyToken, userController.findUserById);
 router.get('/user/code/:code', userController.findUserByCode);
-router.get('/user/check/:code', userController.checkCode);
+router.get('/user/checkDoor/:code', userController.checkCodeDoor);
+router.get('/user/checkSite/:code', userController.checkCodeSite);
 router.get('/user', validateToken.verifyToken, userController.allUsers);
 router.post('/user', register, validateToken.verifyToken, validateUser.userCheck() ,userController.createUser);
 router.put('/user/:id', register, validateToken.verifyToken, userController.updateUser);

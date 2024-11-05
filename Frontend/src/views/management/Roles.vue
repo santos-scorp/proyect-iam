@@ -9,7 +9,7 @@
         </nav>
         <h3>Administración de Roles</h3>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-newRol" data-bs-whatever="@mdo">Nuevo Rol</button>
-        <table class="table table-dark table-hover">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Nombre</th>
