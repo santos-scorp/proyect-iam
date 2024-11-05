@@ -6,7 +6,8 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - my-network
+      cyber:
+        ipv4_address: 10.5.0.5
 
   frontend:
     build:
@@ -17,7 +18,13 @@ services:
       - HOST=0.0.0.0
       - PORT=5000
     networks:
-      - my-network
+      cyber:
+        ipv4_address: 10.5.0.6
 
 networks:
-  my-network:
+  cyber:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
